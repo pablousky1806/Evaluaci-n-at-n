@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Evaluación sensorial de atún enlatado</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Evaluación sensorial de atún enlatado</h1>
+    <div class="progreso" aria-hidden="true"><span id="barra"></span></div>
+  </header>
+
+  <main>
+    <!-- 0. Bienvenida -->
+    <section class="pantalla" id="p-bienvenida">
+      <div class="tarjeta">
+        <h2>Evaluación sensorial de atún enlatado</h2>
+        <p>Te invitamos a participar en una prueba de evaluación sensorial de atún enlatado. Durante esta actividad probarás cinco muestras diferentes y compartirás tu opinión sobre sus características y aceptación.</p>
+        <p>Lee cuidadosamente cada pregunta y responde con honestidad de acuerdo con tu experiencia y preferencias personales. No existen respuestas correctas o incorrectas.</p>
+        <p>Tu participación es voluntaria y tus respuestas serán utilizadas exclusivamente con fines académicos.</p>
+        <div class="aviso oculto" id="aviso-enviado">Ya registraste una evaluación desde este dispositivo. Gracias por tu participación.</div>
+        <label class="opcion" style="margin-top:10px">
+          <input type="checkbox" id="consentimiento">
+          <span>He leído la información anterior y acepto participar de forma voluntaria.</span>
+        </label>
+      </div>
+      <div class="error" role="alert"></div>
+      <div class="botones">
+        <button class="btn btn-primario" type="button" data-siguiente id="btn-comenzar">Comenzar evaluación</button>
+      </div>
+    </section>
+
+    <!-- 1. Datos generales -->
+    <section class="pantalla" id="p-datos">
+      <div class="tarjeta">
+        <h2>Datos generales</h2>
+
+        <div class="campo">
+          <h3>1. Edad</h3>
+          <p class="ayuda">Escribe tu edad en años cumplidos.</p>
+          <input type="number" id="edad" min="18" max="120" step="1" inputmode="numeric" placeholder="Ej. 25">
+        </div>
+
+        <div class="campo">
+          <h3>2. Género</h3>
+          <div class="opciones" id="opciones-genero"></div>
+        </div>
+
+        <div class="campo">
+          <h3>3. ¿Consume atún enlatado?</h3>
+          <div class="opciones" id="opciones-consume"></div>
+        </div>
+
+        <div class="campo">
+          <h3>4. ¿Con qué frecuencia consume atún enlatado?</h3>
+          <div class="opciones" id="opciones-frecuencia"></div>
+        </div>
+
+        <div id="bloque-consumo">
+          <div class="campo">
+            <h3>5. ¿Cómo consume normalmente el atún?</h3>
+            <p class="ayuda">Puedes seleccionar más de una opción.</p>
+            <div class="opciones" id="opciones-formas"></div>
+            <div class="campo oculto" id="campo-otro" style="margin-top:10px">
+              <input type="text" id="otraForma" maxlength="300" placeholder="Especifica la forma de consumo">
+            </div>
+          </div>
+
+          <div class="campo">
+            <h3>6. ¿Qué marcas de atún consume habitualmente?</h3>
+            <p class="ayuda">Escribe una o varias marcas.</p>
+            <textarea id="marcas" maxlength="300" placeholder="Escribe las marcas aquí"></textarea>
+            <div class="opciones" style="margin-top:10px">
+              <label class="opcion"><input type="checkbox" id="chk-sinmarca"><span>No consumo una marca en particular.</span></label>
+              <label class="opcion"><input type="checkbox" id="chk-norecuerda"><span>No recuerdo el nombre de la marca.</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="error" role="alert"></div>
+      <div class="botones">
+        <button class="btn btn-primario" type="button" data-siguiente>Siguiente</button>
+      </div>
+    </section>
+
+    <!-- 2. Instrucciones -->
+    <section class="pantalla" id="p-instrucciones">
+      <div class="tarjeta">
+        <h2>Instrucciones</h2>
+        <p>A continuación, evaluarás cinco muestras de atún enlatado, etiquetadas con códigos de tres dígitos.</p>
+        <ul class="lista-instrucciones">
+          <li>Prueba las muestras de izquierda a derecha.</li>
+          <li>Después de evaluar cada muestra, toma agua natural para limpiar tu paladar antes de continuar con la siguiente.</li>
+          <li>Responde las preguntas de acuerdo con tu percepción personal. Recuerda que no existen respuestas correctas o incorrectas.</li>
+        </ul>
+      </div>
+      <div class="error" role="alert"></div>
+      <div class="botones">
+        <button class="btn btn-primario" type="button" data-siguiente>Comenzar la degustación</button>
+      </div>
+    </section>
+
+    <!-- 3 a 7. Muestras (se generan en app.js) -->
+    <div id="muestras"></div>
+
+    <!-- 8. Ordenamiento -->
+    <section class="pantalla" id="p-ranking">
+      <div class="tarjeta">
+        <h2>Ordenamiento de muestras</h2>
+        <p>Ordene las muestras desde la que más le gustó hasta la que menos le gustó. Donde 1 corresponde a la muestra más preferida y 5 a la menos preferida.</p>
+        <p class="ayuda">Toca un código para asignarlo a la siguiente posición vacía. Toca una posición llena para liberar ese código y cambiarlo.</p>
+        <div class="slots" id="slots"></div>
+        <h4>Códigos disponibles</h4>
+        <div class="chips" id="disponibles"></div>
+      </div>
+      <div class="error" role="alert"></div>
+      <div class="botones">
+        <button class="btn btn-primario" type="button" data-siguiente>Siguiente</button>
+      </div>
+    </section>
+
+    <!-- 9. Muestra favorita y envío -->
+    <section class="pantalla" id="p-favorita">
+      <div class="tarjeta">
+        <h2>Muestra favorita</h2>
+        <h3>¿Cuál de las muestras que probó fue su favorita?</h3>
+        <div class="opciones" id="opciones-favorita"></div>
+      </div>
+      <div class="error" role="alert"></div>
+      <div class="botones">
+        <button class="btn btn-primario" type="button" id="btn-enviar">Enviar respuestas</button>
+      </div>
+    </section>
+
+    <!-- 10. Pantalla final (solo tras confirmación del servidor) -->
+    <section class="pantalla" id="p-final">
+      <div class="tarjeta agradece">
+        <h2>¡Muchas gracias por tu participación!</h2>
+        <p>No olvides pasar por tu regalito :)</p>
+        <div id="contenedor-imagen"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
